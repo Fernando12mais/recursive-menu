@@ -1,31 +1,54 @@
 import list, { List } from "./list";
-import { createAccordion, createAccordionContent } from "./accordion";
+import {
+  createAccordion,
+  createAccordionContent,
+  showHideElements,
+} from "./accordion";
 
 const app = document.querySelector("#app");
-
-const ul = document.createElement("ul");
 
 const h1 = document.createElement("h1");
 
 h1.append(list.title);
 
-app?.append(h1, ul);
+app?.append(h1);
 
 list.subItems?.forEach((subItem) => {
-  renderSubItems(subItem, ul);
+  const accordion = createAccordion();
+  renderSubItems(subItem, accordion);
+
+  app?.append(accordion);
 });
 
-function renderSubItems(list: List, ul: HTMLUListElement) {
+function renderSubItems(list: List, accordion: HTMLUListElement) {
+  const hasSubItems = !!list.subItems?.length;
+
   const li = document.createElement("li");
   li.append(list.title);
 
-  ul.append(li);
+  accordion.append(li);
+  li.id = list.title;
 
-  if (list.subItems?.length) {
-    const ul = document.createElement("ul");
+  if (!hasSubItems) return;
 
-    li.append(ul);
+  const accordionContent = createAccordionContent();
 
-    list.subItems.forEach((item) => renderSubItems(item, ul));
-  }
+  const newAccordion = createAccordion();
+
+  accordionContent.append(newAccordion);
+
+  li.append(accordionContent);
+
+  li.onclick = (e) => {
+    e.stopPropagation();
+    const element = document.querySelector(`#${list.title}`) as HTMLElement;
+
+    showHideElements(element);
+
+    li.classList.toggle("active");
+
+    console.log(e.target);
+  };
+
+  list.subItems?.forEach((item) => renderSubItems(item, newAccordion));
 }

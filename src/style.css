@@ -16,9 +16,10 @@ body {
   background-color: white;
 }
 
-.accordion li {
+.accordion-content ul {
   overflow: hidden;
   list-style: inside;
+  border: none;
 }
 
 .accordion-content {
@@ -34,4 +35,8 @@ body {
 }
 .active {
   color: green;
+}
+
+.no-marker {
+  list-style: none !important;
 }
