@@ -27,7 +27,6 @@ function renderSubItems(list: List, accordion: HTMLUListElement) {
   li.append(list.title);
 
   accordion.append(li);
-  li.id = list.title;
 
   if (!hasSubItems) return;
 
@@ -41,13 +40,10 @@ function renderSubItems(list: List, accordion: HTMLUListElement) {
 
   li.onclick = (e) => {
     e.stopPropagation();
-    const element = document.querySelector(`#${list.title}`) as HTMLElement;
 
-    showHideElements(element);
+    showHideElements(li);
 
     li.classList.toggle("active");
-
-    console.log(e.target);
   };
 
   list.subItems?.forEach((item) => renderSubItems(item, newAccordion));
